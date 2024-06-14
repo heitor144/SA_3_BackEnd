@@ -85,7 +85,7 @@ class taskModel {
   // Método para atualizar uma tarefa existente por ID no banco de dados
   update(updatedTask, id) {
     const sql = "UPDATE task SET descricao = ?, situacao = ?, data_abertura = ?, data_conclusao = ? WHERE id = ?"; // Consulta SQL para atualizar uma tarefa por ID
-    const values = [newTask.descricao, newTask.situacao, newTask.data_abertura, newTask.data_conclusao]; // Valores a serem inseridos na consulta SQL
+    const values = [updatedTask.descricao, updatedTask.situacao, updatedTask.data_abertura, updatedTask.data_conclusao]; // Valores a serem inseridos na consulta SQL
     return this.executeSQL(sql, values); // Executa a consulta SQL utilizando o método executeSQL e retorna o resultado
   }
 
@@ -102,7 +102,7 @@ class taskModel {
     return this.executeSQL(sql, [pesquisa, pesquisa]);    
   }
   */
- 
+
 }
 
 // Exporta uma instância da classe taskModel para ser utilizada em outros arquivos do projeto

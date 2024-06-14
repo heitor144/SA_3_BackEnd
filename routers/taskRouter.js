@@ -14,9 +14,9 @@ router.get ("/api/task/:id", taskController.apiRead);
 
 router.post ("/api/task", taskController.apiCreate);
 
-router.put ("api/task/:id", taskController.apiUpdate);
+router.put ("/api/task/:id", taskController.apiUpdate);
 
-router.delete ("api/task/:id", taskController.apiDelete);
+router.delete ("/api/task/:id", taskController.apiDelete);
 
 // ----------------------------------------------------------------------------------------------
 // Integração Front End x Back End
@@ -36,6 +36,6 @@ router.post ("/task", taskController.create);
 
 router.post ("/task/:id", taskController.update);
 
-router.get ("task/delete/:id", taskController.delete);
+router.get ("/task/delete/:id", taskController.delete);
 
 module.exports = router;
