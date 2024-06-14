@@ -21,7 +21,7 @@ class TaskController {
 
         const retorno = taskModel.apiRead(id);
         return retorno
-            .then((retult) =>
+            .then((result) =>
                 result.length == 0
                     ? res.status(404).send("Tarefa não encontrada!")
                     : res.status(200).json(result)
