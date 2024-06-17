@@ -24,7 +24,7 @@ router.delete ("/api/task/:id", taskController.apiDelete);
 
 router.get ("/task/create", taskController.viewCreate);
 
-router.get ("/task", taskController.viewReadList);
+router.get ("/task", taskController.viewHomePage);
 
 router.get ("/task/update/:id", taskController.viewUpdate);
 

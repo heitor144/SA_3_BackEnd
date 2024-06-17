@@ -1,0 +1,83 @@
+/* Estilos gerais */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo do cabeçalho */
+header {
+    background-color: #343a40;
+    color: white;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header .btn {
+    background-color: #ffffff;
+    color: #343a40;
+}
+
+/* Estilos dos cards de tarefas */
+.card {
+    border-radius: 0.5rem;
+    border: none;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.card-body {
+    position: relative;
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    margin-bottom: 0.5rem;
+}
+
+/* Classes de cor para as situações das tarefas */
+.task-nao-iniciada {
+    background-color: #fff3cd;
+}
+
+.task-iniciada {
+    background-color: #d4edda;
+}
+
+.task-em-andamento {
+    background-color: #cce5ff;
+}
+
+.task-concluida {
+    background-color: #f8d7da;
+}
+
+/* Estilo do modal */
+.modal-header, .modal-footer {
+    border: none;
+}
+
+.modal-content {
+    border-radius: 0.5rem;
+}
+
+/* Estilo do rodapé */
+footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+}
