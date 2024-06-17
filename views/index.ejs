@@ -111,7 +111,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <% if (tasks.length> 0) { %>
+<<<<<<< HEAD
                         <form id="updateTaskForm" action="" method="POST">
+=======
+                    <% tasks.forEach(task=> { %>
+                        <form id="updateTaskForm" action="/task/<%= task.id %>" method="POST">
+>>>>>>> 143641269787c84a4239917c24454396439199e9
                             <div class="modal-header">
                                 <h5 class="modal-title" id="updateTaskModalLabel">Atualizar Tarefa</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -123,7 +128,11 @@
                                 <div class="form-group">
                                     <label for="descricao">Descrição:</label>
                                     <input type="text" id="descricao" name="descricao" class="form-control"
+<<<<<<< HEAD
                                         value="" required>
+=======
+                                        value="<%= task.descricao %>" required>
+>>>>>>> 143641269787c84a4239917c24454396439199e9
                                 </div>
                                 <div class="form-group">
                                     <label for="situacao">Situação:</label>
@@ -137,12 +146,20 @@
                                 <div class="form-group">
                                     <label for="data_abertura">Data de Abertura:</label>
                                     <input type="date" id="data_abertura" name="data_abertura" class="form-control"
+<<<<<<< HEAD
                                         value="" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="data_conclusao">Data de Conclusão:</label>
                                     <input type="date" id="data_conclusao" name="data_conclusao" class="form-control"
                                         value="">
+=======
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="data_conclusao">Data de Conclusão:</label>
+                                    <input type="date" id="data_conclusao" name="data_conclusao" class="form-control">
+>>>>>>> 143641269787c84a4239917c24454396439199e9
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -150,9 +167,16 @@
                                 <button type="submit" class="btn btn-primary">Atualizar Tarefa</button>
                             </div>
                         </form>
+<<<<<<< HEAD
                     <% } else { %>
                      <p>Tarefa não encontrada.</p>
                  <% } %>
+=======
+                        <% }); %>
+                            <% } else { %>
+                                <p>Tarefa não encontrada.</p>
+                                <% } %>
+>>>>>>> 143641269787c84a4239917c24454396439199e9
             </div>
         </div>
     </div>
@@ -179,6 +203,7 @@
                 let taskDataConclusao = button.data('taskdataconclusao');
 
                 // Atualiza os campos do formulário no modal
+<<<<<<< HEAD
                 $('#updateTaskForm #taskId').val(taskId);
                 $('#updateTaskForm #descricao').val(taskDescricao);
                 $('#updateTaskForm #situacao').val(taskSituacao);
@@ -187,13 +212,26 @@
 
                 // Ajusta a ação do formulário com base no ID da tarefa
             $('#updateTaskForm').attr('action', '/task/' + taskId);
+=======
+                $('#taskId').val(taskId);
+                $('#descricao').val(taskDescricao);
+                $('#situacao').val(taskSituacao);
+                $('#data_abertura').val(taskDataAbertura);
+                $('#data_conclusao').val(taskDataConclusao);
+>>>>>>> 143641269787c84a4239917c24454396439199e9
             });
 
             // Limpa os campos do formulário no modal ao fechar
             $('#updateTaskModal').on('hidden.bs.modal', function () {
                 $('#updateTaskForm').trigger('reset');
             });
+<<<<<<< HEAD
             // limpando o modal de adicionar tarefa antes de abrir;
+=======
+
+
+            // Limpa o modal de adicionar tarefa antes de abrir;
+>>>>>>> 143641269787c84a4239917c24454396439199e9
             $('#addTaskModal').on('show.bs.modal', function () {
                 $('#addTaskModal form').trigger('reset');
             });
