@@ -58,6 +58,7 @@ class TaskController {
             .catch((error) => res.status(400).json(error.message));
     }
 
+
     // Método para excluir uma tarefa existente por ID
     apiDelete(req, res) {
         // Obtém o parâmetro ID da requisição
@@ -90,6 +91,7 @@ class TaskController {
                     ? res.status(404).render("./task/task_read", { title: "Tarefas", tasks: result, search: '' })
                     : res.status(200).render("./task/task_read", { title: "Tarefas", tasks: result, search: '' })
             )
+            
             .catch((error) => res.status(400).send(error.message));
     }
 
@@ -110,7 +112,16 @@ class TaskController {
 
     // Método para visualizar a página inicial
     viewHomePage(req, res) {
-        return res.status(200).render("./index", { title: "Página Inicial" });
+        
+        const tasksList = taskModel.readList();
+        return tasksList
+            .then((result) =>
+                result.length == 0
+                    ? res.status(404).render("./index", { title: "Tarefas", tasks: result, search: '' })
+                    : res.status(200).render("./index", { title: "Tarefas", tasks: result, search: '' })
+            )
+            
+            .catch((error) => res.status(400).send(error.message));
     }
 
     // Método para criar uma nova tarefa
