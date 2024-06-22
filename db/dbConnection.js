@@ -6,7 +6,7 @@ const sqlConnection = mysql.createConnection({
   host: "localhost",       // Host onde o banco de dados está sendo executado (geralmente "localhost" para desenvolvimento local)
   port: 3306,              // Porta utilizada para se conectar ao banco de dados MySQL
   user: "root",            // Nome de usuário para autenticação no banco de dados
-  password: "marysoares",            // Senha do usuário para autenticação no banco de dados
+  password: "",            // Senha do usuário para autenticação no banco de dados
   database: "db_task",      // Nome do banco de dados a ser utilizado
 });
 
