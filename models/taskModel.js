@@ -77,6 +77,9 @@ class taskModel {
 
   // Método para criar uma nova tarefa no banco de dados
   create(newTask) {
+    if (newTask.data_conclusao == ''){
+      newTask.data_conclusao = null;
+    }
     const sql = "INSERT INTO task (descricao, situacao, data_abertura, data_conclusao) VALUES (?, ?, ?, ?)"; // Consulta SQL corrigida para inserir uma nova tarefa
     const values = [newTask.descricao, newTask.situacao, newTask.data_abertura, newTask.data_conclusao]; // Valores a serem inseridos na consulta SQL
     return this.executeSQL(sql, values); // Executa a consulta SQL utilizando o método executeSQL e retorna o resultado
@@ -84,8 +87,11 @@ class taskModel {
 
   // Método para atualizar uma tarefa existente por ID no banco de dados
   update(updatedTask, id) {
+    if (updatedTask.data_conclusao == ''){
+      updatedTask.data_conclusao = null;
+    } 
     const sql = "UPDATE task SET descricao = ?, situacao = ?, data_abertura = ?, data_conclusao = ? WHERE id = ?"; // Consulta SQL para atualizar uma tarefa por ID
-    const values = [updatedTask.descricao, updatedTask.situacao, updatedTask.data_abertura, updatedTask.data_conclusao]; // Valores a serem inseridos na consulta SQL
+    const values = [updatedTask.descricao, updatedTask.situacao, updatedTask.data_abertura, updatedTask.data_conclusao, id]; // Valores a serem inseridos na consulta SQL
     return this.executeSQL(sql, values); // Executa a consulta SQL utilizando o método executeSQL e retorna o resultado
   }
 
@@ -95,13 +101,13 @@ class taskModel {
     return this.executeSQL(sql, id); // Executa a consulta SQL utilizando o método executeSQL e retorna o resultado
   }
 
-  /*
+  
   // Método para obter a lista de todas as tarefas no banco de dados com base no que foi digitado no campo de pesquisa
   search(pesquisa){
-    const sql = "SELECT id, nome, salario FROM task WHERE nome like ? or salario like ? ";
+    const sql = "SELECT * FROM task WHERE descricao like ?  ";
     return this.executeSQL(sql, [pesquisa, pesquisa]);    
   }
-  */
+
 
 }
 

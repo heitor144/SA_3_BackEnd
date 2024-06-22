@@ -18,19 +18,21 @@ router.put ("/api/task/:id", taskController.apiUpdate);
 
 router.delete ("/api/task/:id", taskController.apiDelete);
 
+
+
 // ----------------------------------------------------------------------------------------------
 // Integração Front End x Back End
 // ----------------------------------------------------------------------------------------------
 
 router.get ("/task/create", taskController.viewCreate);
 
-router.get ("/task", taskController.viewReadList);
+router.get ("/task", taskController.viewHomePage);
 
 router.get ("/task/update/:id", taskController.viewUpdate);
 
 router.get ("/", taskController.viewHomePage);
 
-//router.post ("/task.search", taskController.search);
+router.post ("/task.search", taskController.search);
 
 router.post ("/task", taskController.create);
 

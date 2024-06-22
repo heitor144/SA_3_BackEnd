@@ -1,5 +1,6 @@
 const express = require ("express");
-
+const bodyParser = require('body-parser');
+const path = require('path');
 const app =  express();
 
 //http://localhost:3000
@@ -11,12 +12,16 @@ database();
 
 //Define o engine de Visualização a ser usado;
 app.set ('view engine', 'ejs');
-
+app.set('views', path.join(__dirname, 'views'));
 // Configura a sessão do aplicativo, especificando algumas opções como:
 // - "secret" é uma chave secreta usada para assinar a sessão, garantindo a sua segurança.
 // - "saveUninitialized" é um valor booleano que define se a sessão deve ser salva mesmo que ela não tenha sido modificada.
 // - "resave" é um valor booleano que define se a sessão deve ser salva novamente mesmo que ela não tenha sido modificada.
 const session = require ("express-session");
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use (session ({
     secret: 'secretKey',
     saveUninitialized: true,
@@ -28,6 +33,7 @@ app.use ( (req, res, next) => {
     delete req.session.message;
     next ();
 })
+
 
 const router = require ("./routers/index.js");
 router (app, express);

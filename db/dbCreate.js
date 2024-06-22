@@ -49,13 +49,14 @@ class TaskDatabase {
     createTable() {
         // Query SQL para criar a tabela 'task', se ela não existir
         const sql = `
-        CREATE TABLE task (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          descricao TEXT NOT NULL,
-          situacao ENUM('Não iniciada', 'Iniciada', 'Em Andamento', 'Concluída') NOT NULL DEFAULT 'Não iniciada',
-          data_abertura DATE NOT NULL,
-          data_conclusao DATE NULL
+            CREATE TABLE IF NOT EXISTS task (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            descricao TEXT NOT NULL,
+            situacao ENUM('Não iniciada', 'Iniciada', 'Em Andamento', 'Concluída') NOT NULL DEFAULT 'Não iniciada',
+            data_abertura DATE NOT NULL,
+            data_conclusao DATE NULL
         );
+
       `;
         // Executa a query para criar a tabela 'task'
         this.connection.query(sql, (error) => {

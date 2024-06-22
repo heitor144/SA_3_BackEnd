@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+
+    <header class="bg-dark text-white py-4">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1>Task Manager</h1>
+            <div class="d-flex">
+                <form class="form-inline mr-2" action="/task.search" method="POST">
+                    <input class="form-control mr-2" type="text" name="search" placeholder="Pesquisa..." value="<%= search %>">
+                    <button class="btn btn-light" type="submit" name="submit">Pesquisar</button>
+                </form>
+                <button class="btn btn-light" data-toggle="modal" data-target="#addTaskModal">Adicionar Tarefa</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="py-4">
+        <div class="container">
+            <% if (message) { %>
+                <div class="alert alert-<%= message.type %> alert-dismissible fade show" role="alert">
+                    <%= message.message %>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <% } %>
+
+                    <div id="tasks">
+                        <% tasks.forEach(task=> { %>
+                            <div
+                                class="card mb-3 <%= task.situacao === 'Não iniciada' ? 'task-nao-iniciada' : task.situacao === 'Iniciada' ? 'task-iniciada' : task.situacao === 'Em Andamento' ? 'task-em-andamento' : task.situacao === 'Concluída' ? 'task-concluida' : '' %>">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <%= task.descricao %>
+                                    </h5>
+                                    <p class="card-text"><strong>Situação:</strong>
+                                        <%= task.situacao %>
+                                    </p>
+                                    <p class="card-text"><strong>Data de Abertura:</strong>
+                                        <%= new Date(task.data_abertura).toLocaleDateString('pt-BR') %>
+                                    </p>
+                                    <% if (task.data_conclusao) { %>
+                                        <p class="card-text"><strong>Data de Conclusão:</strong>
+                                            <%= new Date(task.data_conclusao).toLocaleDateString('pt-BR') %>
+                                        </p>
+                                        <% } %>
+                                            <a href="#" class="btn btn-primary mr-2" data-toggle="modal"
+                                                data-target="#updateTaskModal" data-taskid="<%= task.id %>"
+                                                data-taskdescricao="<%= task.descricao %>"
+                                                data-tasksituacao="<%= task.situacao %>"
+                                                data-taskdataabertura="<%= new Date(task.data_abertura).toISOString().slice(0, 10) %>"
+                                                data-taskdataconclusao="<%= task.data_conclusao ? new Date(task.data_conclusao).toISOString().slice(0, 10) : '' %>">Atualizar</a>
+                                            <a href="/task/delete/<%= task.id %>" class="btn btn-danger">Deletar</a>
+                                </div>
+                            </div>
+                            <% }); %>
+                    </div>
+        </div>
+    </main>
+
+    <!-- Modal Adicionar Tarefa -->
+    <div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/task" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addTaskModalLabel">Adicionar Nova Tarefa</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="descricao">Descrição:</label>
+                            <input type="text" id="descricao" name="descricao" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="situacao">Situação:</label>
+                            <select id="situacao" name="situacao" class="form-control">
+                                <option value="Não iniciada">Não iniciada</option>
+                                <option value="Iniciada">Iniciada</option>
+                                <option value="Em Andamento">Em Andamento</option>
+                                <option value="Concluída">Concluída</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="data_abertura">Data de Abertura:</label>
+                            <input type="date" id="data_abertura" name="data_abertura" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="data_conclusao">Data de Conclusão:</label>
+                            <input type="date" id="data_conclusao" name="data_conclusao" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Adicionar Tarefa</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Atualizar Tarefa -->
+    <div class="modal fade" id="updateTaskModal" tabindex="-1" aria-labelledby="updateTaskModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <% if (tasks.length> 0) { %>
+                        <form id="updateTaskForm" action="" method="POST">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="updateTaskModalLabel">Atualizar Tarefa</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" id="taskId" name="taskId">
+                                <div class="form-group">
+                                    <label for="descricao">Descrição:</label>
+                                    <input type="text" id="descricao" name="descricao" class="form-control"
+                                        value="" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="situacao">Situação:</label>
+                                    <select id="situacao" name="situacao" class="form-control">
+                                        <option value="Não iniciada">Não iniciada</option>
+                                        <option value="Iniciada">Iniciada</option>
+                                        <option value="Em Andamento">Em Andamento</option>
+                                        <option value="Concluída">Concluída</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="data_abertura">Data de Abertura:</label>
+                                    <input type="date" id="data_abertura" name="data_abertura" class="form-control"
+                                        value="" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="data_conclusao">Data de Conclusão:</label>
+                                    <input type="date" id="data_conclusao" name="data_conclusao" class="form-control"
+                                        value="">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Atualizar Tarefa</button>
+                            </div>
+                        </form>
+                    <% } else { %>
+                     <p>Tarefa não encontrada.</p>
+                 <% } %>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-4">
+        <div class="container">
+            <p>&copy; 2024 Task Manager App</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Modal de Atualizar Tarefa
+            $('#updateTaskModal').on('show.bs.modal', function (event) {
+                let button = $(event.relatedTarget); // Botão que acionou o modal
+                let taskId = button.data('taskid'); // Extrai informação dos atributos data-*
+                let taskDescricao = button.data('taskdescricao');
+                let taskSituacao = button.data('tasksituacao');
+                let taskDataAbertura = button.data('taskdataabertura');
+                let taskDataConclusao = button.data('taskdataconclusao');
+
+                // Atualiza os campos do formulário no modal
+                $('#updateTaskForm #taskId').val(taskId);
+                $('#updateTaskForm #descricao').val(taskDescricao);
+                $('#updateTaskForm #situacao').val(taskSituacao);
+                $('#updateTaskForm #data_abertura').val(taskDataAbertura);
+                $('#updateTaskForm #data_conclusao').val(taskDataConclusao);
+
+                // Ajusta a ação do formulário com base no ID da tarefa
+            $('#updateTaskForm').attr('action', '/task/' + taskId);
+            });
+
+            // Limpa os campos do formulário no modal ao fechar
+            $('#updateTaskModal').on('hidden.bs.modal', function () {
+                $('#updateTaskForm').trigger('reset');
+            });
+            // limpando o modal de adicionar tarefa antes de abrir;
+            $('#addTaskModal').on('show.bs.modal', function () {
+                $('#addTaskModal form').trigger('reset');
+            });
+        });
+    </script>
+
+</body>
+
+</html>
